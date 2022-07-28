@@ -1,7 +1,7 @@
 module dut(data_in, rst_, ld_cnt, updn_cnt, count_enb, clk, data_out);
 
 input logic [15:0] data_in;
-input logic rst_, ld_cnt, updn_cnt, count_enb, clk; 
+input wire rst_, ld_cnt, updn_cnt, count_enb, clk; 
 output logic [15:0] data_out;
 
 always_ff@(posedge clk, negedge rst_) begin
@@ -11,13 +11,15 @@ always_ff@(posedge clk, negedge rst_) begin
 
 	if(count_enb) begin
 		if(updn_cnt) begin
-			data_in += 1;
+			data_out += 1;
 		end
 
 		else begin
-			data_in -= 1;
+			data_out -= 1;
 		end
 	end
 end
+
+
 
 endmodule 
