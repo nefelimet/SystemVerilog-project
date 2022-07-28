@@ -9,11 +9,14 @@ dut my_dut(.data_in(sys_data_in), .rst_(sys_rst_), .ld_cnt(sys_ld_cnt), .updn_cn
 bind dut dut_property dutbound(data_in, rst_, ld_cnt, updn_cnt, count_enb, clk, data_out);
 
 always @(posedge sys_clk)
-	$display();
+	$display($stime,,,"data_in = %b, rst=clk=%b req=%b gnt=%b",sys_clk,sys_req,sys_gnt);
 always #10 sys_clk = !sys_clk;
 
 initial
 begin
+
+	sys_rst_ = 1'b0;
+	@(posedge sys_clk) $finish(2);
 
 end
 
