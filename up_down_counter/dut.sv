@@ -20,14 +20,4 @@ always_ff@(posedge clk, negedge rst_) begin
 	end
 end
 
-initial 
-begin 
-@(posedge req); 
- @(negedge clk); gnt=1'b0; 
- @(negedge clk); gnt=1'b1; 
-@(posedge req); 
- @(negedge clk); gnt=1'b0; 
- @(negedge clk); gnt=1'b0; 
-end 
-
 endmodule 
