@@ -26,7 +26,7 @@ assert property (pr2) $display($stime,,,"\t\t Property 2 PASS.");
 
 property pr3;
 	@(posedge pclk) disable iff(!prst_)
-	pld_cnt && pcount_enb && pupdn_cnt |-> pdata_out == $past(pdata_out) + 1;
+	pld_cnt && pcount_enb && pupdn_cnt |=> pdata_out == $past(pdata_out) + 1;
 endproperty
 
 assert property (pr3) $display($stime,,,"\t\t Property 3 PASS.");
@@ -37,7 +37,7 @@ assert property (pr3) $display($stime,,,"\t\t Property 3 PASS.");
 
 property pr4;
 	@(posedge pclk) disable iff(!prst_)
-	pld_cnt && pcount_enb && !pupdn_cnt |-> pdata_out == $past(pdata_out) - 1;
+	pld_cnt && pcount_enb && !pupdn_cnt |=> pdata_out == $past(pdata_out) - 1;
 endproperty
 
 assert property (pr4) $display($stime,,,"\t\t Property 4 PASS.");
