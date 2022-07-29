@@ -5,7 +5,7 @@ input wire prst_, pld_cnt, pupdn_cnt, pcount_enb, pclk;
 
 //Property 1: when reset is asserted, the output of the counter is zero
 property pr1;
-	@(posedge pclk) prst_ |-> pdata_out == 0;
+	@(posedge pclk) !prst_ |-> pdata_out == 0;
 endproperty
 
 assert property (pr1) $display($stime,,,"\t\t Property 1 PASS.");
