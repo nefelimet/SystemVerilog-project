@@ -7,9 +7,10 @@ output logic [width-1 : 0] fifo_data_out;
 output wire fifo_full, fifo_empty;
 
 //Internal variables
-wire wr_pnt;
-wire rd_pnt;
-logic [width-1 : 0] mem [0 : depth - 1];
+wire wr_ptr;
+wire rd_ptr;
+logic cnt;
+logic [width-1 : 0] mem [0 : depth-1];
 
 always_ff@(posedge clk, negedge rst_) begin
 
@@ -20,18 +21,25 @@ always_ff@(posedge clk, negedge rst_) begin
 
 	//Write operation
 	if (fifo_write && !fifo_full) begin
-		
+		mem[wr_ptr] = fifo_data_in;
+		wr_ptr = wr_ptr + 1;
+		cnt = cnt + 1;
 	end
 
 	//Read operation
 	if (fifo_read && !fifo_empty) begin
-
+		mem[rd_ptr] = fifo_data_in;
+		rd_ptr = rd_ptr + 1;
+		cnt = cnt - 1;
 	end
+
+	//Full FIFO assertion
+
+
+	//Empty FIFO assertion
 
 
 end
-
-
 
 
 endmodule
