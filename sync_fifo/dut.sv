@@ -11,11 +11,6 @@ logic [$clog2(depth) : 0] wr_ptr, rd_ptr;
 logic cnt;
 logic [width-1 : 0] mem [0 : depth-1];
 
-//initial begin
-//	wr_ptr <= 0;
-//	rd_ptr <= 0;
-//end
-
 always_ff@(posedge clk, negedge rst_) begin
 
 	//Active low reset
