@@ -7,10 +7,14 @@ output logic [width-1 : 0] fifo_data_out;
 output logic fifo_full, fifo_empty;
 
 //Internal variables
-logic wr_ptr;
-logic rd_ptr;
+logic [$clog2(depth) : 0] wr_ptr, rd_ptr;
 logic cnt;
 logic [width-1 : 0] mem [0 : depth-1];
+
+//initial begin
+//	wr_ptr <= 0;
+//	rd_ptr <= 0;
+//end
 
 always_ff@(posedge clk, negedge rst_) begin
 
@@ -22,7 +26,11 @@ always_ff@(posedge clk, negedge rst_) begin
 		cnt <= 0;
 		fifo_full <= 0;
 		fifo_empty <= 1;
+		wr_ptr <= 0;
+		rd_ptr <= 0;
 	end
+	
+	else begin
 
 	//Write operation
 	if (fifo_write && !fifo_full) begin
@@ -48,7 +56,7 @@ always_ff@(posedge clk, negedge rst_) begin
 		fifo_empty <= 1;
 	end
 
-
+	end
 end
 
 
