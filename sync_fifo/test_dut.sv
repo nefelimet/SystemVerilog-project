@@ -10,7 +10,7 @@ dut #(.width(16), .depth(16)) my_dut   (.fifo_data_in(sys_fifo_data_in), .rst_(s
 bind dut dut_property #(.depth(16), .width(16)) dutbound(fifo_data_in, rst_, fifo_write, fifo_read, clk, fifo_data_out, fifo_full, fifo_empty, dut.cnt, dut.wr_ptr, dut.rd_ptr);
 
 always @(posedge sys_clk)
-	$display($time,,,"");
+	$display($time,,,"wr_ptr=%b, rd_ptr=%b, fifo_full=%b, fifo_empty=%b, mem[0]=%b, mem[1]=%b", my_dut.wr_ptr, my_dut.rd_ptr, my_dut.fifo_full, my_dut.fifo_empty, my_dut.mem[0], my_dut.mem[1]);
 always #10 sys_clk = !sys_clk;
 
 initial begin
