@@ -1,55 +1,35 @@
-module dut #(parameter depth = 16, width = 16) (fifo_data_in, rst_, fifo_write, fifo_read, clk, fifo_data_out, fifo_full, fifo_empty);
+module dut(data_in, rst_, ld_cnt, updn_cnt, count_enb, clk, data_out);
 
-//Inputs and outputs
-input logic [width-1 : 0] fifo_data_in;
-input wire rst_, fifo_write, fifo_read, clk;
-output logic [width-1 : 0] fifo_data_out;
-output logic fifo_full, fifo_empty;
-
-//Internal variables
-logic wr_ptr;
-logic rd_ptr;
-logic cnt;
-logic [width-1 : 0] mem [0 : depth-1];
+input logic [15:0] data_in;
+input wire rst_, ld_cnt, updn_cnt, count_enb, clk; 
+output logic [15:0] data_out;
 
 always_ff@(posedge clk, negedge rst_) begin
+	
+//If reset is active, data out is zero. Reset is active low.
+	if(!rst_) begin
+		data_out <= 16'b0;
+	end
 
-	//Active low reset
-	if (!rst_) begin
-		for(int i = 0; i < depth; i++) begin
-			mem[i] <= 0;
+//If ld_cnt (load counter) is active, load input data to output. ld_cnt is active low.
+//Load counter has a higher priority than count enable.
+	if(!ld_cnt) begin
+		data_out <= data_in;
+	end
+
+//If count enable is active, count up or down, according to updn_cnt's value.
+	else if(count_enb) begin
+		if(updn_cnt) begin
+			data_out = data_out + 1;
 		end
-		cnt <= 0;
-		fifo_full <= 0;
-		fifo_empty <= 1;
+
+		else begin
+			data_out = data_out - 1;
+		end
 	end
-
-	//Write operation
-	if (fifo_write && !fifo_full) begin
-		mem[wr_ptr] <= fifo_data_in;
-		wr_ptr <= wr_ptr + 1;
-		cnt <= cnt + 1;
-	end
-
-	//Read operation
-	if (fifo_read && !fifo_empty) begin
-		fifo_data_out <= mem[rd_ptr];
-		rd_ptr <= rd_ptr + 1;
-		cnt <= cnt - 1;
-	end
-
-	//Full FIFO assertion
-	if ((wr_ptr >> (width-1) != rd_ptr >> (width-1)) && ((wr_ptr << 1) >> 1 == (rd_ptr << 1) >> 1)) begin
-		fifo_full <= 1;
-	end
-
-	//Empty FIFO assertion
-	if (wr_ptr == rd_ptr) begin
-		fifo_empty <= 1;
-	end
-
-
 end
 
 
-endmodule
+
+endmodule 
+
