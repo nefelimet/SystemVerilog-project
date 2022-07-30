@@ -47,13 +47,16 @@ always_ff@(posedge clk, negedge rst_) begin
 	end
 
 	//Full FIFO assertion
-	if ((wr_ptr >> (width-1) != rd_ptr >> (width-1)) && ((wr_ptr << 1) >> 1 == (rd_ptr << 1) >> 1)) begin
+	if (wr_ptr[$clog2(depth)] != rd_ptr[$clog2(depth)] && wr_ptr[$clog2(depth)-1 : 0] == rd_ptr[$clog2(depth)-1 : 0]) begin
 		fifo_full <= 1;
 	end
 
 	//Empty FIFO assertion
 	if (wr_ptr == rd_ptr) begin
 		fifo_empty <= 1;
+	end
+	else begin
+		fifo_empty <= 0;
 	end
 
 	end
