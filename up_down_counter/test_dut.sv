@@ -15,23 +15,33 @@ always #10 sys_clk = !sys_clk;
 initial
 begin
 
-	sys_rst_ = 1'b1;
+	sys_rst_ = 0;
 	sys_data_in = 16'b0;
-	sys_ld_cnt = 0;
+	sys_ld_cnt = 1;
 	sys_updn_cnt = 0;
 	sys_count_enb = 0;
-	#60;
+	#20;
 
+	sys_rst_ = 1;
+	#20;
+
+	sys_ld_cnt = 0;
 	sys_data_in = 7;
-	#60;
+	#20;
+	sys_data_in = 9;
+	#20;
 
 	sys_ld_cnt = 1;
-	sys_updn_cnt = 1;
 	sys_count_enb = 1;
-	#60;
+	sys_updn_cnt = 1;
+	#100;
 
 	sys_updn_cnt = 0;
 	#60;
+
+	sys_ld_cnt = 0;
+	sys_data_in = 54;
+	#40;
 
 end
 
