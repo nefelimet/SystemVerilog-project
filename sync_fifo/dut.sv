@@ -50,7 +50,7 @@ always_ff@(posedge clk, negedge rst_) begin
 	end
 
 	//Empty FIFO assertion
-	if (wr_ptr == rd_ptr) begin
+	if (cnt <= 0) begin
 		fifo_empty <= 1;
 	end
 	else begin
