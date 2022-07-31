@@ -18,7 +18,7 @@ assert property (pr1) $display($stime,,,"\t\t Property 1 PASS.");
 //Property 2:
 //The fifo empty signal is asserted whenever cnt = 0. Disable this property if the reset is active.
 property pr2;
-	@(posedge pclk) disable iff (!prst_) !pcnt |-> pfifo_empty;
+	@(posedge pclk) disable iff (!prst_) !pcnt |=> pfifo_empty;
 endproperty
 
 assert property (pr2) $display($stime,,,"\t\t Property 2 PASS.");
@@ -28,7 +28,7 @@ assert property (pr2) $display($stime,,,"\t\t Property 2 PASS.");
 //Property 3:
 //The fifo full signal is asserted whenever cnt >= 16. Disable this property if the reset is active.
 property pr3;
-	@(posedge pclk) disable iff (!prst_) (pcnt >= 16) |-> pfifo_full;
+	@(posedge pclk) disable iff (!prst_) (pcnt >= 16) |=> pfifo_full;
 endproperty
 
 assert property (pr3) $display($stime,,,"\t\t Property 3 PASS.");
