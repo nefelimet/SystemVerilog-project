@@ -1,11 +1,12 @@
 module dut_property #(parameter depth = 16, width = 16) (pfifo_data_in, prst_, pfifo_write, pfifo_read, pclk, pfifo_data_out, pfifo_full, pfifo_empty, pcnt, pwr_ptr, prd_ptr);
 
 input wire [width-1 : 0] pfifo_data_in, pfifo_data_out;
-input wire prst_, pfifo_write, pfifo_read, pclk, pfifo_full, pfifo_empty, pcnt;
+input wire prst_, pfifo_write, pfifo_read, pclk, pfifo_full, pfifo_empty;
+input integer pcnt;
 input wire [$clog2(depth) : 0] pwr_ptr, prd_ptr;
 
 //Property 1:
-//On reset, the read and write pointers are zero, empty and full indicators are ‘1’ and ‘0’, respectively (since the memory is indeed empty), and the counter is zero as well. 
+//On reset, the read and write pointers are zero, empty and full indicators are ?1? and ?0?, respectively (since the memory is indeed empty), and the counter is zero as well. 
 property pr1;
 	@(posedge pclk) !prst_ |-> (pwr_ptr == 0 && prd_ptr == 0 && pfifo_full == 0 && pfifo_empty == 1 && pcnt == 0);
 endproperty
