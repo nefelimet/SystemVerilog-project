@@ -45,6 +45,9 @@ always_ff@(posedge clk, negedge rst_) begin
 	if (wr_ptr[$clog2(depth)] != rd_ptr[$clog2(depth)] && wr_ptr[$clog2(depth)-1 : 0] == rd_ptr[$clog2(depth)-1 : 0]) begin
 		fifo_full <= 1;
 	end
+	else begin
+		fifo_full <= 0;
+	end
 
 	//Empty FIFO assertion
 	if (wr_ptr == rd_ptr) begin
